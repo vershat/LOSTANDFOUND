@@ -1,4 +1,4 @@
-import { asyncHandler } from "../utils/AsyncHandler.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { LostItem } from "../models/LostItems.model.js";
 import { User } from "../models/User.model.js";
@@ -16,8 +16,11 @@ const postLostItems = asyncHandler(async (req, res, _) => {
   if (!req.files) throw new ApiError(403, "Image path is required");
   const imgUpload = async () => {
     try {
+      console.log("hgsfgjyr ", req.files, req.file);
+      
       const arr = await Promise.all(
         req.files.media.map(async (imgLink) => {
+          console.log(imgLink,"tushar gendu",req.files, "gendu tushar",req.file)
           const localPath = imgLink.path;
           const imgUrl = await uploadOnCloudinary(localPath);
           if (!imgUrl) {
@@ -60,7 +63,7 @@ const getLostItems = asyncHandler(async (req, res, _) => {
   const lostItems = await LostItem.find({})
     .populate({
       path: "userId",
-      select: "rollNo  fullName",
+      select: "mobileNo  fullName",
     })
     .exec();
   if (!lostItems) {

@@ -6,18 +6,23 @@ import {
     GET_LOST_ITEMS_BY_USER_ID,
 } from "../apis.js";
 import { apiConnector } from "../apiConnector.js";
+import { setLostItems } from "../../slices/lostItemSlice.js";
+import { ROUTES } from "../../utils/constants.js";
 
 const postLostItem = (formData,navigate) => {
     return async(dispatch) => {
         const toastId = toast.loading("Loading...");
         try {
-            const response = await apiConnector("POST",POST_LOST_ITEM,formData);
+            const response = await apiConnector("POST",POST_LOST_ITEM,formData,{
+                "Content-Type": "multipart/form-data",
+            });
             if(!response.data.success){
                 toast.error(response.data.message);
                 throw new Error(response.data.message);
             }
             toast.success(response.data.message);
             //  navigate logic
+            navigate(ROUTES.LOSTITEMS);
         } catch (error) {
             toast.error(error.message);
         }
@@ -25,7 +30,7 @@ const postLostItem = (formData,navigate) => {
     }
 };
 
-const getLostItems = (navigate) => {
+const getLostItems = () => {
     return async(dispatch) => {
         const toastId = toast.loading("Loading...");
         try {
@@ -34,12 +39,13 @@ const getLostItems = (navigate) => {
             toast.error(response.data.message);
             throw new Error(response.data.message);
           }
+          dispatch(setLostItems(response.data.data));
           toast.success(response.data.message);
-          //  navigate logic
         } catch (error) {
-            toast.error(error.message);
+          toast.error(error.message);
+        } finally {
+          toast.dismiss(toastId);
         }
-        toast.dismiss(toastId);
     }
 };
 
@@ -58,9 +64,10 @@ const getLostItemsById = (id,navigate) => {
           toast.success(response.data.message);
           //  navigate logic
         } catch (error) {
-            toast.error(error.message);
+          toast.error(error.message);
+        } finally {
+          toast.dismiss(toastId);
         }
-        toast.dismiss(toastId);
     }
 };
 
@@ -76,9 +83,10 @@ const getLostItemsForUser = (navigate) => {
           toast.success(response.data.message);
           //  navigate logic
         } catch (error) {
-            toast.error(error.message);
+          toast.error(error.message);
+        } finally {
+          toast.dismiss(toastId);
         }
-        toast.dismiss(toastId);
     }
 }
 

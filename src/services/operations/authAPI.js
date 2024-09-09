@@ -1,7 +1,37 @@
-import { setSignupData, setToken, setUserData } from "../../slices/authSlice.js";
+import { setAppData, setItems, setLeaderBoardData, setLeaderBoardLoading, setSignupData, setToken, setUserData } from "../../slices/authSlice.js";
+import { ROUTES } from "../../utils/constants.js";
 import { apiConnector } from "../apiConnector.js";
-import { SEND_OTP_URL, RESEND_OTP_URL, SIGNUP_URL, LOGIN_URL, LOGOUT_URL, } from "../apis.js";
+import { SEND_OTP_URL, RESEND_OTP_URL, SIGNUP_URL, LOGIN_URL, LOGOUT_URL, EDIT_PROFILE, LEADERBOARD_URL, APP_DETAILS, SUBSCRIBE_USER, GET_DETAILS_URL, } from "../apis.js";
 import { toast } from "react-hot-toast";
+
+
+const subscribeUser = (formData) => {
+    return async() => {
+      try {
+        const response = await apiConnector("POST",SUBSCRIBE_USER, formData);
+        if(!response.data.success) {
+          throw new Error(response.data.message);
+        }
+      } catch (error) {
+        console.error(error.message);
+        
+      }
+    }
+};
+
+const appDetails = () => {
+    return async (dispatch) => {
+      try {
+        const response = await apiConnector("GET",APP_DETAILS);
+        if(!response.data.success) {
+          throw new Error(response.data.message);
+        }
+        dispatch(setAppData(response.data.data));
+      } catch (e) {
+        console.error(e.message);
+      }
+    }
+};
 
 const sendOTP = (formData,navigate) => {
     return async(dispatch) => {
@@ -13,11 +43,13 @@ const sendOTP = (formData,navigate) => {
                 throw new Error(response.data.message);
             }
             toast.success(response.data.message);
-            dispatch() // to be planned
+            // dispatch() // to be planned
+            dispatch(setSignupData(formData))
         } catch (error) {
             console.log(error.message);
+        } finally { 
+          toast.dismiss(toastId);
         }
-        toast.dismiss(toastId);
     }
 };
 
@@ -31,59 +63,64 @@ const resendOTP = (formData,navigate) => {
                 throw new Error(response.data.message);
             }
             toast.success(response.data.message);
-            dispatch()//to be planned
+            // dispatch()//to be planned
         }catch(error) {
             console.log(error.message);
+        } finally {
+          toast.dismiss(toastId);
         }
-        toast.dismiss(toastId);
     }
 }
 
-const signupUser = (formData,navigate) => {
-    return async(dispatch) => {
-        const toastId = toast.loading("Loading...");
-        try {
-            const response = await apiConnector("POST",SIGNUP_URL,formData);
-            if(!response.data.success){
-                toast.error(response.data.message);
-                throw new Error(response.data.message);
-            }
-            toast.success(response.data.message);
-            dispatch(setSignupData(null));
-            dispatch(setToken(response.data.accessToken));
-            // navigate user to dashboard
-        } catch (error) {
-            console.log(error.message);
-        }
-        toast.dismiss(toastId);
+const signupUser = (formData, navigate) => {
+  return async (dispatch) => {
+    const toastId = toast.loading("Loading...");
+    try {
+      const response = await apiConnector("POST", SIGNUP_URL, formData);
+      
+      if (!response.data.success) {
+        toast.error(response.data.message);
+        throw new Error(response.data.message);
+      }
+      toast.success(response.data.message);
+      dispatch(setSignupData(null));
+      dispatch(setUserData(response.data.data.user));
+      dispatch(setToken(response.data.data.accessToken)); 
+        navigate(ROUTES.HOME);
+    } catch (error) {
+      console.log(error.message); 
+    } finally {
+      toast.dismiss(toastId);
     }
+  };
 };
 
-const loginUser = (formData,navigate) => {
-    return async(dispatch) => {
-        const toastId = toast.loading("Loading...");
-        try {
-            const response = await apiConnector("POST", LOGIN_URL, formData, {
-              "Content-Type": "application/x-www-form-urlencoded",
-            });
-            console.log(response);
-            if(!response.data.success){
-                toast.error(response.data.message);
-                throw new Error(response.data.message);
-            }
-            console.log(response.data);
-            toast.success(response.data.message);
-            dispatch(setUserData(response.data.data.user));
-            dispatch(setToken(response.data.data.accessToken));
-            // navigate()//to be planned
-        } catch (error) {
-            console.log(error.message);
-        }
-        toast.dismiss(toastId);
+
+const loginUser = (formData, navigate) => {
+  return async (dispatch) => {
+    const toastId = toast.loading("Loading...");
+    try {
+      const response = await apiConnector("POST", LOGIN_URL, formData, {
+        "Content-Type": "application/x-www-form-urlencoded",
+      });
+      if (!response.data.success) {
+        throw new Error(response.data.message);
+      }
+      toast.success(response.data.message);      
+      dispatch(setUserData(response.data.data.user));
+      dispatch(setToken(response.data.data.accessToken));
+      navigate(ROUTES.HOME);
+    } catch (error) {
+      console.log(error.message);
+      
+      toast.error(error.message);
+    } finally {
+      toast.dismiss(toastId);
     }
+  };
 };
 
-const logoutUser = (navigate) => {
+const logoutUser = () => {
     return async(dispatch) => {
         const toastId = toast.loading("Loading...");
         try {
@@ -95,17 +132,80 @@ const logoutUser = (navigate) => {
             toast.success(response.data.message);
             dispatch(setUserData(null));
             dispatch(setToken(null));
-            navigate() // to be planned
+            Cookies.remove("accessToken");
+            Cookies.remove("refreshToken");
         } catch (error) {
             console.log(error.message);
+        } finally {
+          toast.dismiss(toastId);
+        }
+    }
+};
+
+const editProfile = (formData,navigate) => {
+    return async(dispatch) => {
+        const toastId = toast.loading("Loading");
+        try {
+            const response = await apiConnector("POST",EDIT_PROFILE,formData);
+            if(!response.data.success) {
+                throw new Error(response.data.message);
+            }
+            dispatch(setUserData(response.data.data.user));
+            toast.success(response.data.message);
+            navigate(ROUTES.HOME);
+        } catch (error) {
+            toast.error(error.message);
+        } finally {
+          toast.dismiss(toastId);
         }
     }
 }
 
+const getLeaderBoardData = () => {
+  return async (dispatch) => {
+    const toastId = toast.loading("Loading...");
+    setLeaderBoardLoading(true);
+    try {
+      const response = await apiConnector("GET",LEADERBOARD_URL);
+      if(!response.data.success) {
+        throw new Error(response.data.message);
+      }
+      setLeaderBoardLoading(false);
+      dispatch(setLeaderBoardData(response.data.data.leaderBoardData));
+      toast.success(response.data.message);
+    } catch (error) {
+      setLeaderBoardLoading(false);
+      toast.error(error.message);
+    } finally {
+      setLeaderBoardLoading(false);
+      toast.dismiss(toastId);
+    }
+  }
+};
+
+const getDetails = () => {
+  return async (dispatch) => {
+    try{
+      const response = await apiConnector("GET", GET_DETAILS_URL);
+      if(!response.data.success) {
+        throw new Error(response.data.message);
+      }
+      dispatch(setItems(response.data.data));
+    } catch(error) {
+      console.error(error.message);
+    }
+  }
+}
+
 export {
+    appDetails,
+    subscribeUser,
     sendOTP,
     resendOTP,
     signupUser,
     loginUser,
     logoutUser,
-}
+    editProfile,
+    getLeaderBoardData,
+    getDetails,
+};

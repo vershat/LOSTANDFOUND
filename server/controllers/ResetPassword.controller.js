@@ -6,6 +6,7 @@ import crypto from "crypto";
 import bcrypt from "bcrypt";
 import { mailSender } from "../utils/mailSender.js";
 import { RESET_PASSWORD_SUBJECT } from "../constants.js";
+import ResetTemp from "../mailTemplates/resetTemplate.js";
 
 const generateResetPasswordToken = asyncHandler(async (req, res, _) => {
   const { email } = req.body;
@@ -14,15 +15,16 @@ const generateResetPasswordToken = asyncHandler(async (req, res, _) => {
 
   const user = await User.findOne({ email });
   if (!user) throw new ApiError(400, "User Not Registered");
-
+  console.log(user.fullName);
+  const name = user.fullName.trim().split(" ")[0];
   const resetPasswordToken = crypto.randomBytes(20).toString("hex");
 
   user.resetPasswordToken = resetPasswordToken;
   user.resetPasswordTokenExpiry = Date.now() + 3600000; 
   await user.save();
-
-  
-  const response = await mailSender(email,RESET_PASSWORD_SUBJECT,`${resetPasswordToken}`);
+  const resetPasswordURL = `${process.env.CORS_ORIGIN}/reset-password/${resetPasswordToken}`;
+  const htmlContent = ResetTemp(name, resetPasswordURL);
+  const response = await mailSender(email,RESET_PASSWORD_SUBJECT,htmlContent);
 //   console.log(response);
 //     if(!response)
 //         throw new ApiError(501,"Unable to Send Mail. Please try after Sometime");
@@ -44,13 +46,12 @@ const resetPassword = asyncHandler(async (req, res, _) => {
 
   if ((Date.now(user.resetPasswordExpires) > Date.now()))
     throw new ApiError(403, "Token Expired");
-
-  password = await bcrypt.hash(password, 10);
+  const hashpassword = await bcrypt.hash(password, 10);
   const updatedUser = await User.findByIdAndUpdate(
     user._id,
     {
       $set: {
-        password,
+        password:hashpassword,
         resetPasswordToken: null,
         resetPasswordTokenExpiry: null,
       },
