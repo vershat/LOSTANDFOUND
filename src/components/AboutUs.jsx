@@ -1,7 +1,7 @@
 import React from 'react'
 import Header from './Header'
-// import Ravi from '../assets/RaviProfile.jpg'
-import Ravi from '../assets/AvtarProfile.png'
+import versha from '../assets/versha.jpeg'
+// import Ravi from '../assets/AvtarProfile.png'
 import { FaLinkedinIn } from "react-icons/fa6";
 import { GrInstagram } from "react-icons/gr";
 import { FaTwitter } from "react-icons/fa";
@@ -74,58 +74,8 @@ const AboutUs = () => {
               </div>
             </div>
 
-            {/* Second Profile Card */}
-            <div className="p-1 w-full sm:w-1/2 lg:w-60 bg-foundify-gradient shadow-white  shadow-sm rounded-lg mx-4 mb-4">
-              <div className="flex justify-center mt-2">
-                <img
-                  src={PROFILE[1]}
-                  className="h-32 sm:h-40 w-32 sm:w-40 rounded-full cursor-pointer border-black border-solid border-4"
-                  alt="profile"
-                />
-              </div>
-              <div className="flex justify-center my-2 text-black">
-                <h1 className="font-bold text-xl sm:text-2xl my-3 text-gray-400">
-                  Ravi Saini
-                </h1>
-              </div>
-              <div className="text-center  text-sm sm:text-base text-gray-400">
-                MERN Stack Developer and Competitive Programmer , expertise in ReactJS and Node.js, adapt at
-                building scalable and efficient web applications.
-              </div>
-              <div className="font-extrabold my-2 flex justify-center text-sm sm:text-base text-gray-600">
-                Web Developer
-              </div>
-              <div className="flex justify-center mb-2 mt-2">
-                <div className="flex justify-center mb-2 mt-2">
-                  <div className="mx-1 text-lg sm:text-xl">
-                    {" "}
-                    <a
-                      href="https://www.linkedin.com/in/ravi-saini-78096a22a"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <FaLinkedinIn className="text-gray-400" />
-                    </a>
-                  </div>
-                  <div className="mx-1 text-lg sm:text-xl">
-                    <a
-                      href="https://www.instagram.com/ravisaini045?igsh=Z3lhNG04YjRmbmNt"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <GrInstagram className="text-gray-400" />
-                    </a>
-                  </div>
-                  <div className="mx-1 text-lg sm:text-xl">
-                    <a href="https://www.linkedin.com/in/ravi-saini-78096a22a">
-                      <FaTwitter className="text-gray-400" />
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
+           
 
-            {/* Third Profile Card */}
             <div className="p-1 w-full sm:w-1/2 lg:w-60 bg-foundify-gradient shadow-white  shadow-sm rounded-lg mx-4 mb-4">
               <div className="flex justify-center mt-2">
                 <img
@@ -181,23 +131,22 @@ const AboutUs = () => {
               </div>
             </div>
 
-            {/* Fourth Profile Card */}
             <div className="p-1 w-full sm:w-1/2 lg:w-60 bg-foundify-gradient shadow-white  shadow-sm rounded-lg mx-4 mb-4">
               <div className="flex justify-center mt-2">
                 <img
-                  src={PROFILE[3]}
+                  src={PROFILE[1]}
                   className="h-32 sm:h-40 w-32 sm:w-40 rounded-full cursor-pointer border-black border-solid border-4"
                   alt="profile"
                 />
               </div>
               <div className="flex justify-center my-2 text-black">
                 <h1 className="font-bold text-xl sm:text-2xl my-3 text-gray-400">
-                  Yash Gupta
+                  Ravi Saini
                 </h1>
               </div>
               <div className="text-center  text-sm sm:text-base text-gray-400">
-                Full Stack Developer experienced in building responsive web
-                applications using ReactJS, NodeJS, and MongoDB
+                MERN Stack Developer and Competitive Programmer , expertise in ReactJS and Node.js, adapt at
+                building scalable and efficient web applications.
               </div>
               <div className="font-extrabold my-2 flex justify-center text-sm sm:text-base text-gray-600">
                 Web Developer
@@ -207,7 +156,7 @@ const AboutUs = () => {
                   <div className="mx-1 text-lg sm:text-xl">
                     {" "}
                     <a
-                      href="https://www.linkedin.com/in/yash-gupta-145820227"
+                      href="https://www.linkedin.com/in/ravi-saini-78096a22a"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -215,13 +164,64 @@ const AboutUs = () => {
                     </a>
                   </div>
                   <div className="mx-1 text-lg sm:text-xl">
-                    <a href="https://www.linkedin.com/in/yash-gupta-145820227">
+                    <a
+                      href="https://www.instagram.com/ravisaini045?igsh=Z3lhNG04YjRmbmNt"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <GrInstagram className="text-gray-400" />
+                    </a>
+                  </div>
+                  <div className="mx-1 text-lg sm:text-xl">
+                    <a href="https://www.linkedin.com/in/ravi-saini-78096a22a">
+                      <FaTwitter className="text-gray-400" />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Fourth Profile Card */}
+            <div className="p-1 w-full sm:w-1/2 lg:w-60 bg-foundify-gradient shadow-white  shadow-sm rounded-lg mx-4 mb-4">
+              <div className="flex justify-center mt-2">
+                <img
+                  src={versha}
+                  className="h-32 sm:h-40 w-32 sm:w-40 rounded-full cursor-pointer border-black border-solid border-4"
+                  alt="profile"
+                />
+              </div>
+              <div className="flex justify-center my-2 text-black">
+                <h1 className="font-bold text-xl sm:text-2xl my-3 text-gray-400">
+                  Versha Yadav
+                </h1>
+              </div>
+              <div className="text-center  text-sm sm:text-base text-gray-400">
+                Frontend Developer experienced in building responsive web
+                applications using ReactJS, TalwindCSS
+              </div>
+              <div className="font-extrabold my-2 flex justify-center text-sm sm:text-base text-gray-600">
+                Web Developer
+              </div>
+              <div className="flex justify-center mb-2 mt-2">
+                <div className="flex justify-center mb-2 mt-2">
+                  <div className="mx-1 text-lg sm:text-xl">
+                    {" "}
+                    <a
+                      href="https://www.linkedin.com/in/versha-yadav-491583225/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <FaLinkedinIn className="text-gray-400" />
+                    </a>
+                  </div>
+                  <div className="mx-1 text-lg sm:text-xl">
+                    <a href="https://www.linkedin.com/in/versha-yadav-491583225/">
                       <GrInstagram className="text-gray-400" />
                     </a>
                   </div>
                   <div className="mx-1 text-lg sm:text-xl">
                     <a
-                      href="https://www.linkedin.com/in/yash-gupta-145820227"
+                      href="https://www.linkedin.com/in/versha-yadav-491583225/"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -233,26 +233,6 @@ const AboutUs = () => {
             </div>
           </div>
 
-          <div className="text-bold text-white text-4xl mt-6 mb-4 flex justify-center">
-            Special Mention
-          </div>
-          <div className="bg-bg-foundify-gradient  ">
-            <div className="flex justify-center mt-2">
-              <img
-                src={PROFILE[4]}
-                className="h-32 sm:h-40 w-32 sm:w-40 rounded-full cursor-pointer border-black border-solid border-4"
-                alt="profile"
-              />
-            </div>
-            <div className="">
-              <h1 className="flex justify-center text-gray-600 font-extrabold text-lg">
-                Kush Sharma
-              </h1>
-              <p className="flex justify-center text-gray-600">
-                Thanks for helping in UI/UX designing
-              </p>
-            </div>
-          </div>
         </div>
       </div>
       <Footer />
